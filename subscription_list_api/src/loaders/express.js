@@ -5,14 +5,14 @@ const bodyParser = require("body-parser");
 const { xss } = require("express-xss-sanitizer");
 const cors = require("cors");
 const routes = require("../routes/v1/index");
+const helmet = require("helmet");
 const { ErrorHandler } = require("../middlewares/ErrorHandler");
 
 const app = express();
 app.use(cors({ origin: process.env.FRONTEND_URL }));
 app.use(bodyParser.json({ limit: "1kb" }));
-// app.use(bodyParser.urlencoded({ extended: true, limit: "1kb" }));
-app.use(xss());
-
+app.use(xss()); // use this middleware to avoid xss attacks
+app.use(helmet()); // use this middleware to secure api
 // middleware that logs requests method and the url requested.
 app.use((req, res, next) => {
   const date = new Date().toISOString().split("T");

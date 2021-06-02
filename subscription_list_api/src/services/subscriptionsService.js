@@ -2,6 +2,11 @@ const models = require("./../models/index");
 const Joi = require("joi");
 const { Op } = require("sequelize");
 
+/**
+ * 
+ * @param data : query object from req contains email
+ * @returns list contains subscriptions of this email
+ */
 const getAllSubscriptionsService = async (data) => {
   const schema = Joi.object({
     email: Joi.string().empty(""),
@@ -17,6 +22,13 @@ const getAllSubscriptionsService = async (data) => {
   return subscriptionList;
 };
 
+/**
+ * 
+ * @param  data : body object from req contains email and channel
+ * 1- validate data
+ * 2- insert this data into database
+ * @returns inserted object
+ */
 const addNewSubscriptionService = async (data) => {
   const schema = Joi.object({
     channel: Joi.string().required(),
